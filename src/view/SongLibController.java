@@ -13,6 +13,8 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
@@ -22,25 +24,25 @@ public class SongLibController {
 	@FXML
 	ListView<String> listView;
 	private ObservableList<String> obsList;
+	private List<String> listOfSongs = readFile();
+
 	public void start(Stage mainStage) {
 		
 		//read data from list
-		List<String> listOfSongs = readFile();
-		Collections.sort(listOfSongs, String.CASE_INSENSITIVE_ORDER);
-		System.out.println("list of songs" + listOfSongs);
+		//System.out.println("list of songs" + listOfSongs);
 		
 		obsList = FXCollections.observableArrayList();
 		int numberOfSongs = listOfSongs.size();
 		int currSong = 0;
 		while(currSong < numberOfSongs) {
 			String songInfo = listOfSongs.get(currSong);
-			System.out.println("songinfo" + songInfo);
-			String[] songInfoArr = songInfo.split("\t");
-			System.out.println(songInfoArr[1]);
+			//System.out.println("songinfo" + songInfo);
+			String[] songInfoArr = songInfo.split("\\|");
+			//System.out.println(songInfoArr[1]);
 			
 			
 			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
-			System.out.println(nameAndArtist);
+			//System.out.println(nameAndArtist);
 			
 			obsList.add(nameAndArtist);
 			currSong+=1;
@@ -57,7 +59,22 @@ public class SongLibController {
 		.selectedIndexProperty()
 		.addListener(
 		(obs, oldVal, newVal) ->
-		showItemInputDialog(mainStage));
+		showItem(mainStage));
+	}
+	
+	private void showItem(Stage mainStage) {
+		//String item = listView.getSelectionModel().getSelectedItem();
+		int index = listView.getSelectionModel().getSelectedIndex();
+		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
+
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.initOwner(mainStage);
+		alert.setTitle("Selected Song");
+		alert.setHeaderText("Song Information");
+		String content = "Name: " + sia[0] + "\nArtist: " + sia[1] + "\nAlbum: " + sia[2] + "\nYear: " + sia[3];
+		alert.setContentText(content);
+		alert.showAndWait();
 	}
 	
 	private void showItemInputDialog(Stage mainStage) {
@@ -66,9 +83,11 @@ public class SongLibController {
 		
 		TextInputDialog dialog = new TextInputDialog(item);
 		dialog.initOwner(mainStage); dialog.setTitle("List Item");
-		dialog.setHeaderText("Selected Item (Index: " + index + ")");
-		dialog.setContentText("Enter name: ");
+		dialog.setHeaderText("Song Name: " + item + "\nArtist: " + "\nAlbum: " + "\nYear: ");
 		
+		//dialog.setContentText("Enter song name: ");
+
+
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) { obsList.set(index, result.get()); }
 	}
@@ -88,6 +107,7 @@ public class SongLibController {
 				listOfSongs.add(line);
 			}  
 			fr.close(); 
+			Collections.sort(listOfSongs, String.CASE_INSENSITIVE_ORDER);
 			return listOfSongs;
 			
 		} catch (IOException e) {

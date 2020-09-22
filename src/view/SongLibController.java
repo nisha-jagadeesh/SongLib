@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -22,15 +24,25 @@ public class SongLibController {
 	public void start(Stage mainStage) {
 		
 		//read data from list
-		readSongLibFile();
+		List<String> listOfSongs = readFile();
+		System.out.println("list of songs" + listOfSongs);
 		
 		// create an ObservableList
 		// from an ArrayList
-		obsList = FXCollections.observableArrayList(
-		"Painkiller",
-		"Alejandro",
-		"Tombe");
+//		obsList = FXCollections.observableArrayList(
+//		"Painkiller",
+//		"Alejandro",
+//		"Tombe");
+		obsList = FXCollections.observableArrayList();
+		int numberOfSongs = listOfSongs.size();
+		int currSong = 0;
+		while(currSong < numberOfSongs) {
+			obsList.add(listOfSongs.get(currSong));
+			currSong+=1;
+		}
+		
 		listView.setItems(obsList);
+		
 		
 		// select the first item
 		listView.getSelectionModel().select(0);
@@ -56,28 +68,26 @@ public class SongLibController {
 		if (result.isPresent()) { obsList.set(index, result.get()); }
 	}
 	
-	private void readSongLibFile() {
+	private List<String> readFile() {
 
 		try {
 			String basePath = new File("").getAbsolutePath();
 			File file = new File(basePath + "/src/view/songs.txt");
-			FileReader fr = new FileReader(file);
 			
-			//reads the file  
-			BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream  
-			StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters  
+			FileReader fr = new FileReader(file);			
+			BufferedReader br=new BufferedReader(fr);
 			String line;  
+			List<String> listOfSongs = new ArrayList<>();
 			
 			while((line=br.readLine())!=null) {  
-				sb.append(line);      //appends line to string buffer  
-				sb.append("\n");     //line feed   
+				listOfSongs.add(line);
 			}  
+			fr.close(); 
+			return listOfSongs;
 			
-			fr.close();    //closes the stream and release the resources  
-			System.out.println("Contents of File: ");  
-			System.out.println(sb.toString());   //returns a string that textually represents the object  
 		} catch (IOException e) {
 			e.printStackTrace();  
+			return null;
 		}
 	}
 }

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,19 +26,23 @@ public class SongLibController {
 		
 		//read data from list
 		List<String> listOfSongs = readFile();
+		Collections.sort(listOfSongs, String.CASE_INSENSITIVE_ORDER);
 		System.out.println("list of songs" + listOfSongs);
 		
-		// create an ObservableList
-		// from an ArrayList
-//		obsList = FXCollections.observableArrayList(
-//		"Painkiller",
-//		"Alejandro",
-//		"Tombe");
 		obsList = FXCollections.observableArrayList();
 		int numberOfSongs = listOfSongs.size();
 		int currSong = 0;
 		while(currSong < numberOfSongs) {
-			obsList.add(listOfSongs.get(currSong));
+			String songInfo = listOfSongs.get(currSong);
+			System.out.println("songinfo" + songInfo);
+			String[] songInfoArr = songInfo.split("\t");
+			System.out.println(songInfoArr[1]);
+			
+			
+			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+			System.out.println(nameAndArtist);
+			
+			obsList.add(nameAndArtist);
 			currSong+=1;
 		}
 		

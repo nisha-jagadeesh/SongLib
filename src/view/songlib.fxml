@@ -42,6 +42,13 @@
 		AnchorPane.leftAnchor="148"
 		text="Delete"
 		onAction="#modifyList" />
+		
+	<Button
+		fx:id="done"
+		AnchorPane.topAnchor="190"
+		AnchorPane.leftAnchor="220"
+		text="Done"
+		onAction="#modifyList" />
 	
 	<Text AnchorPane.topAnchor="10" AnchorPane.rightAnchor="100" text="Song Details">
         <font>

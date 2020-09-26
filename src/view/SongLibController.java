@@ -81,12 +81,14 @@ public class SongLibController {
 	@FXML Button add;
 	@FXML Button edit;
 	@FXML Button delete;
+	@FXML Button done;
 	public void modifyList(ActionEvent e) {
 		Button b = (Button)e.getSource();
 		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String songInfo = listOfSongs.get(index);
-
+		boolean changed = false;
+		
 		if (b == delete) {	
 			//confirm delete
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -105,12 +107,27 @@ public class SongLibController {
 			
 		}
 		if (b == edit) {
+			String[] sia = listOfSongs.get(index).split("\\|");
 			//Do we want to display "Enter text here: "
-			
+			song.setText(sia[0]);
+			artist.setText(sia[1]);
+			album.setText(sia[2]);
+			year.setText(sia[3]);
 			//make save/cancel buttons
 			//if save -> edit file
-
 		}
+		if (b == done) {
+			editTextFile(songInfo,"e");
+			String[] songInfoArr = songInfo.split("\\|");			
+			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+			listOfSongs = readFile();
+			System.out.println(nameAndArtist);
+			System.out.println("list: " + listOfSongs);
+			System.out.println("obslist: " + obsList);
+			obsList.remove(nameAndArtist);
+			listView.setItems(obsList);
+		}
+
 	}
 
 		
@@ -148,6 +165,7 @@ public class SongLibController {
 						String user_album = album.getText();
 						String user_year = year.getText();
 						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
+						System.out.println(user_song + user_artist + user_album + user_year);
 					}
 				} 
 			}

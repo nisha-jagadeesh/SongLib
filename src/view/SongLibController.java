@@ -46,22 +46,24 @@ public class SongLibController {
 		//read data from list
 		//System.out.println("list of songs" + listOfSongs);
 		
-		obsList = FXCollections.observableArrayList();
-		int numberOfSongs = listOfSongs.size();
-		int currSong = 0;
-		while(currSong < numberOfSongs) {
-			String songInfo = listOfSongs.get(currSong);
-			//System.out.println("songinfo" + songInfo);
-			String[] songInfoArr = songInfo.split("\\|");
-			//System.out.println(songInfoArr[1]);
-			
-			
-			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
-			//System.out.println(nameAndArtist);
-			
-			obsList.add(nameAndArtist);
-			currSong+=1;
-		}
+//		obsList = FXCollections.observableArrayList();
+//		int numberOfSongs = listOfSongs.size();
+//		int currSong = 0;
+//		while(currSong < numberOfSongs) {
+//			String songInfo = listOfSongs.get(currSong);
+//			//System.out.println("songinfo" + songInfo);
+//			String[] songInfoArr = songInfo.split("\\|");
+//			//System.out.println(songInfoArr[1]);
+//			
+//			
+//			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+//			//System.out.println(nameAndArtist);
+//			
+//			obsList.add(nameAndArtist);
+//			currSong+=1;
+//		}
+		
+		obsList = getObsList();
 		
 		listView.setItems(obsList);
 		
@@ -77,17 +79,40 @@ public class SongLibController {
 		showItem(mainStage));
 	}
 	
+	private ObservableList<String> getObsList() {
+		obsList = FXCollections.observableArrayList();
+		int numberOfSongs = listOfSongs.size();
+		int currSong = 0;
+		while(currSong < numberOfSongs) {
+			String songInfo = listOfSongs.get(currSong);
+			String[] songInfoArr = songInfo.split("\\|");			
+			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];			
+			obsList.add(nameAndArtist);
+			currSong+=1;
+		}
+		return obsList;
+	}
+	
 	
 	@FXML Button add;
 	@FXML Button edit;
 	@FXML Button delete;	
 	public void modifyList(ActionEvent e) {
+
 		
 		Button b = (Button)e.getSource();
 		
 		if (b == add) {
-			String songStr = song.getText();
-			System.out.println("adding song" + songStr);
+			String songInfo = song.getText();
+			String artistInfo = artist.getText();
+			String albumInfo = album.getText();
+			String yearInfo = year.getText();
+			String newSongInfo = songInfo + "|" + artistInfo + "|" + albumInfo + "|" + yearInfo + "\n";
+			
+			editTextFile(newSongInfo,"a");
+			listOfSongs = readFile();
+			obsList = getObsList();
+			listView.setItems(obsList);
 		}
 		
 		if (listOfSongs.size() == 0) { return; }
@@ -102,7 +127,7 @@ public class SongLibController {
 			Optional<ButtonType> opt = alert.showAndWait();
 			
 			if (opt.get() == ButtonType.OK) {
-				deleteFromTextFile(songInfo);
+				editTextFile(songInfo,"d");
 				String[] songInfoArr = songInfo.split("\\|");			
 				String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
 				listOfSongs = readFile();
@@ -112,13 +137,17 @@ public class SongLibController {
 			
 		}
 		if (b == edit) {
+			//Do we want to display "Enter text here: "
 			
+			//make save/cancel buttons
+			//if save -> edit file
+
 		}
 	}
 
 		
 	//when delete button is clicked should also remove song from the text file 
-	private String deleteFromTextFile(String songInfo) {
+	private String editTextFile(String songInfo, String command) {
 		
 		try {
 			String basePath = new File("").getAbsolutePath();
@@ -131,13 +160,40 @@ public class SongLibController {
 			StringBuilder sb = new StringBuilder();
 			String line;  
 			
-			while((line=br.readLine())!=null) {  
-				if(!line.equals(songInfo)) {
+			//delete a song from the library
+			if(command.equals("d")) {
+				while((line=br.readLine())!=null) {  
+					if(!line.equals(songInfo)) {
+						sb.append(line).append("\n");
+					}
+				}  
+			}
+			
+			//edit a song in the library
+			if(command.equals("e")) {
+				while((line=br.readLine())!=null) {  
+					if(!line.equals(songInfo)) {
+						sb.append(line).append("\n");
+					}else {
+						String user_song = song.getText();
+						String user_artist = artist.getText();
+						String user_album = album.getText();
+						String user_year = year.getText();
+						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
+					}
+				} 
+			}
+			
+			//add a song to the library
+			if(command.equals("a")) {
+				while((line=br.readLine())!=null) {  
 					sb.append(line).append("\n");
 				}
-			}  
-			String strFile = sb.toString();
-	
+				sb.append(songInfo);
+			}
+			
+			//overwrite the file
+			String strFile = sb.toString();	
 			System.out.println("file contents:\n" + strFile);
 			FileWriter fw = new FileWriter(file);
 			fw.write(strFile);
@@ -146,6 +202,7 @@ public class SongLibController {
 			
 			fr.close(); 
 			return strFile;
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace(); 
@@ -158,6 +215,10 @@ public class SongLibController {
 		//String item = listView.getSelectionModel().getSelectedItem();
 		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
+		if(index == -1) {
+			return;
+		}
+		System.out.println("index here" + index);
 		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
 
 		song_display.setText(sia[0]);

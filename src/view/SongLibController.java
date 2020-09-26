@@ -82,13 +82,13 @@ public class SongLibController {
 	@FXML Button edit;
 	@FXML Button delete;
 	public void modifyList(ActionEvent e) {
+		if (listOfSongs.size() == 0) { return; }
 		Button b = (Button)e.getSource();
-		if (b == delete) {
-			int index = listView.getSelectionModel().getSelectedIndex();
-			String songInfo = listOfSongs.get(index);
-			
-			System.out.println("Which song is playing?\t" + songInfo);
-				
+
+		int index = listView.getSelectionModel().getSelectedIndex();
+		String songInfo = listOfSongs.get(index);
+
+		if (b == delete) {	
 			//confirm delete
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete song");
@@ -103,6 +103,9 @@ public class SongLibController {
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
 			}
+			
+		}
+		if (b == edit) {
 			
 		}
 	}
@@ -147,6 +150,7 @@ public class SongLibController {
 	
 	private void showItem(Stage mainStage) {
 		//String item = listView.getSelectionModel().getSelectedItem();
+		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
 

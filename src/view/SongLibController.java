@@ -142,13 +142,6 @@ public class SongLibController {
 		artist_display.setText(sia[1]);
 		album_display.setText(sia[2]);
 		year_display.setText(sia[3]);
-		//Alert alert = new Alert(AlertType.INFORMATION);
-		//alert.initOwner(mainStage);
-		//alert.setTitle("Selected Song");
-		//alert.setHeaderText("Song Information");
-		//String content = "Name: " + sia[0] + "\nArtist: " + sia[1] + "\nAlbum: " + sia[2] + "\nYear: " + sia[3];
-		//alert.setContentText(content);
-		//alert.showAndWait();
 	}
 		
 	private List<String> readFile() {

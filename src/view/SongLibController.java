@@ -83,11 +83,10 @@ public class SongLibController {
 	@FXML Button delete;
 	public void modifyList(ActionEvent e) {
 		Button b = (Button)e.getSource();
-		if (b == delete) {
-			int index = listView.getSelectionModel().getSelectedIndex();
-			String songInfo = listOfSongs.get(index);
-			
-			
+		int index = listView.getSelectionModel().getSelectedIndex();
+		String songInfo = listOfSongs.get(index);
+
+		if (b == delete) {	
 			//confirm delete
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete song");
@@ -101,6 +100,9 @@ public class SongLibController {
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
 			}
+			
+		}
+		if (b == edit) {
 			
 		}
 	}

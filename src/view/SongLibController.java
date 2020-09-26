@@ -80,11 +80,17 @@ public class SongLibController {
 	
 	@FXML Button add;
 	@FXML Button edit;
-	@FXML Button delete;
+	@FXML Button delete;	
 	public void modifyList(ActionEvent e) {
-		if (listOfSongs.size() == 0) { return; }
+		
 		Button b = (Button)e.getSource();
-
+		
+		if (b == add) {
+			String songStr = song.getText();
+			System.out.println("adding song" + songStr);
+		}
+		
+		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String songInfo = listOfSongs.get(index);
 

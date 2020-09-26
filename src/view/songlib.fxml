@@ -26,70 +26,102 @@
 		fx:id="add"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="50"
-		text="Add" onAction="#convert" />
+		text="Add"
+		onAction="#modifyList" />
 		
 	<Button 
 		fx:id="edit"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="100"
-		text="Edit" onAction="#convert" />
+		text="Edit"
+		onAction="#modifyList"/>
 		
 	<Button 
 		fx:id="delete"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="148"
-		text="Delete" onAction="#convert" />
+		text="Delete"
+		onAction="#modifyList" />
 	
-	<Text layoutX="300" layoutY="50" text="Song Details">
+	<Text AnchorPane.topAnchor="10" AnchorPane.rightAnchor="100" text="Song Details">
         <font>
         	<Font size="24.0" />
         </font>
     </Text>
+       
+    <!-- ************** DISPLAY AREA ************** -->
+    
+    <TextField 
+		fx:id="song_display"
+		prefColumnCount="10"
+        AnchorPane.topAnchor="60" 
+        AnchorPane.rightAnchor="50"/>
+    <TextField 
+		fx:id="artist_display"
+		prefColumnCount="10"
+        AnchorPane.topAnchor="100" 
+        AnchorPane.rightAnchor="50"/>
+    <TextField 
+		fx:id="album_display"
+		prefColumnCount="10"
+        AnchorPane.topAnchor="140" 
+        AnchorPane.rightAnchor="50"/>
+    <TextField 
+		fx:id="year_display"
+		prefColumnCount="10"
+        AnchorPane.topAnchor="180" 
+        AnchorPane.rightAnchor="50"/>
         
+        
+    
+       
+       
+       
+    <!-- ************** ALL THE ADD/EDIT AREAS ************** -->
+       
 	<Text text="Name: "
-        AnchorPane.topAnchor="110" 
+        AnchorPane.topAnchor="230" 
         AnchorPane.rightAnchor="200"/>
         
 	<TextField 
 		fx:id="song"
 		prefColumnCount="10"
 		promptText="Ice Bear Anthem"
-        AnchorPane.topAnchor="110" 
-        AnchorPane.rightAnchor="10"/>
+        AnchorPane.topAnchor="230" 
+        AnchorPane.rightAnchor="30"/>
         
     <Text text="Artist: "
-        AnchorPane.topAnchor="150" 
+        AnchorPane.topAnchor="270" 
         AnchorPane.rightAnchor="200"/>
         
 	<TextField 
 		fx:id="artist"
 		prefColumnCount="10"
 		promptText="Nisha Jagadeesh"
-        AnchorPane.topAnchor="150" 
-        AnchorPane.rightAnchor="10"/>
+        AnchorPane.topAnchor="270" 
+        AnchorPane.rightAnchor="30"/>
         
     <Text text="Album: "
-        AnchorPane.topAnchor="190" 
+        AnchorPane.topAnchor="310" 
         AnchorPane.rightAnchor="200"/>
         
 	<TextField 
 		fx:id="album"
 		prefColumnCount="10"
 		promptText="The Ice Bear Collection"
-        AnchorPane.topAnchor="190" 
-        AnchorPane.rightAnchor="10"/>
+        AnchorPane.topAnchor="310" 
+        AnchorPane.rightAnchor="30"/>
         
     <Text text="Year: "
-        AnchorPane.topAnchor="230" 
+        AnchorPane.topAnchor="350" 
         AnchorPane.rightAnchor="200"/>
         
 	<TextField 
 		fx:id="year"
 		prefColumnCount="10"
 		promptText="2020"
-        AnchorPane.topAnchor="230" 
-        AnchorPane.rightAnchor="10"/>
+        AnchorPane.topAnchor="350" 
+        AnchorPane.rightAnchor="30"/>
 		
  
-		
 </AnchorPane>

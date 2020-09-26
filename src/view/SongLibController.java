@@ -1,9 +1,12 @@
 package view;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,17 +15,26 @@ import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 public class SongLibController {
 	
+	@FXML TextField song;
+	@FXML TextField artist;
+	@FXML TextField album;
+	@FXML TextField year;
+	@FXML TextField song_display;
+	@FXML TextField artist_display;
+	@FXML TextField album_display;
+	@FXML TextField year_display;
 	@FXML
 	ListView<String> listView;
 	private ObservableList<String> obsList;
@@ -64,37 +76,81 @@ public class SongLibController {
 		showItem(mainStage));
 	}
 	
+	
+	@FXML Button add;
+	@FXML Button edit;
+	@FXML Button delete;
+	public void modifyList(ActionEvent e) {
+		Button b = (Button)e.getSource();
+		if (b == delete) {
+			int index = listView.getSelectionModel().getSelectedIndex();
+			String songInfo = listOfSongs.get(index);
+			deleteFromTextFile(songInfo);
+			String[] songInfoArr = songInfo.split("\\|");			
+			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+			obsList.remove(nameAndArtist);
+			listView.setItems(obsList);
+		
+			
+		}
+	}
+
+		
+	//when delete button is clicked should also remove song from the text file 
+	private String deleteFromTextFile(String songInfo) {
+		
+		try {
+			String basePath = new File("").getAbsolutePath();
+			File file;
+			file = new File(basePath + "/src/view/songs.txt");
+			
+			FileReader fr = new FileReader(file);			
+			BufferedReader br=new BufferedReader(fr);
+			
+			StringBuilder sb = new StringBuilder();
+			String line;  
+			
+			while((line=br.readLine())!=null) {  
+				if(!line.equals(songInfo)) {
+					sb.append(line).append("\n");
+				}
+			}  
+			String strFile = sb.toString();
+	
+			System.out.println("file contents:\n" + strFile);
+			FileWriter fw = new FileWriter(file);
+			fw.write(strFile);
+			fw.flush();
+			fw.close();
+			
+			fr.close(); 
+			return strFile;
+			
+		} catch (IOException e) {
+			e.printStackTrace(); 
+			return null;
+		}
+		
+	}
+	
 	private void showItem(Stage mainStage) {
 		//String item = listView.getSelectionModel().getSelectedItem();
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
 
-		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.initOwner(mainStage);
-		alert.setTitle("Selected Song");
-		alert.setHeaderText("Song Information");
-		String content = "Name: " + sia[0] + "\nArtist: " + sia[1] + "\nAlbum: " + sia[2] + "\nYear: " + sia[3];
-		alert.setContentText(content);
-		alert.showAndWait();
+		song_display.setText(sia[0]);
+		artist_display.setText(sia[1]);
+		album_display.setText(sia[2]);
+		year_display.setText(sia[3]);
+		//Alert alert = new Alert(AlertType.INFORMATION);
+		//alert.initOwner(mainStage);
+		//alert.setTitle("Selected Song");
+		//alert.setHeaderText("Song Information");
+		//String content = "Name: " + sia[0] + "\nArtist: " + sia[1] + "\nAlbum: " + sia[2] + "\nYear: " + sia[3];
+		//alert.setContentText(content);
+		//alert.showAndWait();
 	}
-	
-	
-	private void showItemInputDialog(Stage mainStage) {
-		String item = listView.getSelectionModel().getSelectedItem();
-		int index = listView.getSelectionModel().getSelectedIndex();
 		
-		TextInputDialog dialog = new TextInputDialog(item);
-		dialog.initOwner(mainStage); dialog.setTitle("List Item");
-		dialog.setHeaderText("Song Name: " + item + "\nArtist: " + "\nAlbum: " + "\nYear: ");
-		
-		//dialog.setContentText("Enter song name: ");
-
-
-		Optional<String> result = dialog.showAndWait();
-		if (result.isPresent()) { obsList.set(index, result.get()); }
-	}
-	
 	private List<String> readFile() {
 
 		try {
@@ -118,6 +174,21 @@ public class SongLibController {
 			return null;
 		}
 	}
+	
+	//REMOVE LATER
+	private void showItemInputDialog(Stage mainStage) {
+		String item = listView.getSelectionModel().getSelectedItem();
+		int index = listView.getSelectionModel().getSelectedIndex();
+		
+		TextInputDialog dialog = new TextInputDialog(item);
+		dialog.initOwner(mainStage); dialog.setTitle("List Item");
+		dialog.setHeaderText("Song Name: " + item + "\nArtist: " + "\nAlbum: " + "\nYear: ");
+		
+		//dialog.setContentText("Enter song name: ");
+
+	}
+	
+	
 }
 	
 	/**
@@ -140,4 +211,6 @@ public class SongLibController {
 	 * 
 	 * name, artist, album, year
 	 */
+
+
 

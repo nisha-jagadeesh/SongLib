@@ -87,7 +87,8 @@ public class SongLibController {
 			int index = listView.getSelectionModel().getSelectedIndex();
 			String songInfo = listOfSongs.get(index);
 			
-			
+			System.out.println("Which song is playing?\t" + songInfo);
+				
 			//confirm delete
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete song");
@@ -98,6 +99,7 @@ public class SongLibController {
 				deleteFromTextFile(songInfo);
 				String[] songInfoArr = songInfo.split("\\|");			
 				String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+				listOfSongs = readFile();
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
 			}

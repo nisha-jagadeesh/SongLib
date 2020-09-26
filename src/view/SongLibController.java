@@ -156,8 +156,11 @@ public class SongLibController {
 			if (opt.get() == ButtonType.OK) {
 				editTextFile(newSongInfo,"a");
 				listOfSongs = readFile();
+				
+				
 				obsList = getObsList();
 				listView.setItems(obsList);
+				listView.getSelectionModel().select(obsList.indexOf(nameAndArtist));
 				
 				song.setText("");
 				artist.setText("");
@@ -185,6 +188,10 @@ public class SongLibController {
 				listOfSongs = readFile();
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
+				
+				listView.getSelectionModel().select(index);
+				
+				
 			}
 			
 		}

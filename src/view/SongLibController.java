@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.*;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
@@ -32,10 +33,14 @@ public class SongLibController {
 	@FXML TextField artist;
 	@FXML TextField album;
 	@FXML TextField year;
-	@FXML TextField song_display;
-	@FXML TextField artist_display;
-	@FXML TextField album_display;
-	@FXML TextField year_display;
+	@FXML Text song_display;
+	@FXML Text artist_display;
+	@FXML Text album_display;
+	@FXML Text year_display;
+	@FXML TextField song_edit;
+	@FXML TextField artist_edit;
+	@FXML TextField album_edit;
+	@FXML TextField year_edit;
 	@FXML
 	ListView<String> listView;
 	private ObservableList<String> obsList;
@@ -95,24 +100,71 @@ public class SongLibController {
 	
 	
 	@FXML Button add;
+	@FXML Button clear;
 	@FXML Button edit;
 	@FXML Button delete;	
 	public void modifyList(ActionEvent e) {
 
 		
 		Button b = (Button)e.getSource();
+		if (b == clear) {			
+			song.setText("");
+			artist.setText("");
+			album.setText("");
+			year.setText("");
+		}
 		
 		if (b == add) {
 			String songInfo = song.getText();
 			String artistInfo = artist.getText();
+			String nameAndArtist = songInfo + " | " + artistInfo;
+			
+			if (songInfo.isEmpty() || artistInfo.isEmpty()) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Missing Fields");
+				alert.setHeaderText("Name and artist are required fields. Please try again.");
+				alert.show();
+				return;
+				
+			}
+			
+			if (obsList.contains(nameAndArtist)){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Duplicate song");
+				alert.setHeaderText("Error adding duplicate song. Please try again.");
+				alert.show();
+				return;
+			} 
+			
+			
 			String albumInfo = album.getText();
 			String yearInfo = year.getText();
+			
+			if (albumInfo.isEmpty()) {
+				albumInfo = "--";
+			}
+			if (yearInfo.isEmpty()) {
+				yearInfo = "--";
+			}
 			String newSongInfo = songInfo + "|" + artistInfo + "|" + albumInfo + "|" + yearInfo + "\n";
 			
-			editTextFile(newSongInfo,"a");
-			listOfSongs = readFile();
-			obsList = getObsList();
-			listView.setItems(obsList);
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Add song");
+			alert.setHeaderText("Are you sure you want to add this song?");
+			Optional<ButtonType> opt = alert.showAndWait();
+			
+			if (opt.get() == ButtonType.OK) {
+				editTextFile(newSongInfo,"a");
+				listOfSongs = readFile();
+				obsList = getObsList();
+				listView.setItems(obsList);
+				
+				song.setText("");
+				artist.setText("");
+				album.setText("");
+				year.setText("");
+				
+			} 
 		}
 		
 		if (listOfSongs.size() == 0) { return; }
@@ -137,11 +189,17 @@ public class SongLibController {
 			
 		}
 		if (b == edit) {
-			//Do we want to display "Enter text here: "
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Edit song");
+			alert.setHeaderText("Are you sure you want to edit this song?");
+			Optional<ButtonType> opt = alert.showAndWait();
 			
-			//make save/cancel buttons
-			//if save -> edit file
-
+			if (opt.get() == ButtonType.OK) {
+				editTextFile(songInfo,"e");
+				listOfSongs = readFile();
+				obsList = getObsList();
+				listView.setItems(obsList);
+			}
 		}
 	}
 
@@ -175,10 +233,10 @@ public class SongLibController {
 					if(!line.equals(songInfo)) {
 						sb.append(line).append("\n");
 					}else {
-						String user_song = song.getText();
-						String user_artist = artist.getText();
-						String user_album = album.getText();
-						String user_year = year.getText();
+						String user_song = song_edit.getText();
+						String user_artist = artist_edit.getText();
+						String user_album = album_edit.getText();
+						String user_year = year_edit.getText();
 						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
 					}
 				} 
@@ -194,7 +252,7 @@ public class SongLibController {
 			
 			//overwrite the file
 			String strFile = sb.toString();	
-			System.out.println("file contents:\n" + strFile);
+			//System.out.println("file contents:\n" + strFile);
 			FileWriter fw = new FileWriter(file);
 			fw.write(strFile);
 			fw.flush();
@@ -218,13 +276,18 @@ public class SongLibController {
 		if(index == -1) {
 			return;
 		}
-		System.out.println("index here" + index);
 		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
 
 		song_display.setText(sia[0]);
 		artist_display.setText(sia[1]);
 		album_display.setText(sia[2]);
 		year_display.setText(sia[3]);
+		
+		//Do we want to display "Enter text here: "
+		song_edit.setText(sia[0]);
+		artist_edit.setText(sia[1]);
+		album_edit.setText(sia[2]);
+		year_edit.setText(sia[3]);
 	}
 		
 	private List<String> readFile() {

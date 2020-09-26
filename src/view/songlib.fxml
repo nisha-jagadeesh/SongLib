@@ -30,6 +30,13 @@
 		onAction="#modifyList" />
 		
 	<Button 
+		fx:id="clear"
+		AnchorPane.topAnchor="10"
+		AnchorPane.leftAnchor="200"
+		text="clear"
+		onAction="#modifyList" />
+		
+	<Button 
 		fx:id="edit"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="100"
@@ -49,25 +56,45 @@
         </font>
     </Text>
        
-    <!-- ************** DISPLAY AREA ************** -->
+  			  <!-- ************** DISPLAY AREA ************** -->
     
+    <Text 
+    	fx:id="song_display"
+    	AnchorPane.topAnchor = "40"
+    	AnchorPane.rightAnchor="200"/>	
+    <Text 
+    	fx:id="artist_display"
+    	AnchorPane.topAnchor = "55"
+    	AnchorPane.rightAnchor="200"/>
+    <Text 
+    	fx:id="album_display"
+    	AnchorPane.topAnchor = "70"
+    	AnchorPane.rightAnchor="200"/>
+    <Text 
+    	fx:id="year_display"
+    	AnchorPane.topAnchor = "85"
+    	AnchorPane.rightAnchor="200"/>
+    	
+    	
+    		 	   <!-- ************** EDIT AREA ************** -->
+    	
     <TextField 
-		fx:id="song_display"
+		fx:id="song_edit"
 		prefColumnCount="10"
         AnchorPane.topAnchor="60" 
         AnchorPane.rightAnchor="50"/>
     <TextField 
-		fx:id="artist_display"
+		fx:id="artist_edit"
 		prefColumnCount="10"
         AnchorPane.topAnchor="100" 
         AnchorPane.rightAnchor="50"/>
     <TextField 
-		fx:id="album_display"
+		fx:id="album_edit"
 		prefColumnCount="10"
         AnchorPane.topAnchor="140" 
         AnchorPane.rightAnchor="50"/>
     <TextField 
-		fx:id="year_display"
+		fx:id="year_edit"
 		prefColumnCount="10"
         AnchorPane.topAnchor="180" 
         AnchorPane.rightAnchor="50"/>
@@ -77,7 +104,7 @@
        
        
        
-    <!-- ************** ALL THE ADD/EDIT AREAS ************** -->
+  			  <!-- ************** ADD AREAS ************** -->
        
 	<Text text="Name: "
         AnchorPane.topAnchor="230" 

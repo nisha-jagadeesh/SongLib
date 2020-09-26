@@ -83,6 +83,7 @@ public class SongLibController {
 	@FXML Button delete;
 	public void modifyList(ActionEvent e) {
 		Button b = (Button)e.getSource();
+		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String songInfo = listOfSongs.get(index);
 
@@ -94,22 +95,27 @@ public class SongLibController {
 			Optional<ButtonType> opt = alert.showAndWait();
 			
 			if (opt.get() == ButtonType.OK) {
-				deleteFromTextFile(songInfo);
+				editTextFile(songInfo,"d");
 				String[] songInfoArr = songInfo.split("\\|");			
 				String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+				listOfSongs = readFile();
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
 			}
 			
 		}
 		if (b == edit) {
+			//Do we want to display "Enter text here: "
 			
+			//make save/cancel buttons
+			//if save -> edit file
+
 		}
 	}
 
 		
 	//when delete button is clicked should also remove song from the text file 
-	private String deleteFromTextFile(String songInfo) {
+	private String editTextFile(String songInfo, String command) {
 		
 		try {
 			String basePath = new File("").getAbsolutePath();
@@ -122,13 +128,37 @@ public class SongLibController {
 			StringBuilder sb = new StringBuilder();
 			String line;  
 			
-			while((line=br.readLine())!=null) {  
-				if(!line.equals(songInfo)) {
-					sb.append(line).append("\n");
-				}
-			}  
-			String strFile = sb.toString();
-	
+			//delete a song from the library
+			if(command.equals("d")) {
+				while((line=br.readLine())!=null) {  
+					if(!line.equals(songInfo)) {
+						sb.append(line).append("\n");
+					}
+				}  
+			}
+			
+			//edit a song in the library
+			if(command.equals("e")) {
+				while((line=br.readLine())!=null) {  
+					if(!line.equals(songInfo)) {
+						sb.append(line).append("\n");
+					}else {
+						String user_song = song.getText();
+						String user_artist = artist.getText();
+						String user_album = album.getText();
+						String user_year = year.getText();
+						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
+					}
+				} 
+			}
+			
+			//add a song to the library
+			if(command.equals("a")) {
+
+			}
+			
+			//overwrite the file
+			String strFile = sb.toString();	
 			System.out.println("file contents:\n" + strFile);
 			FileWriter fw = new FileWriter(file);
 			fw.write(strFile);
@@ -137,6 +167,7 @@ public class SongLibController {
 			
 			fr.close(); 
 			return strFile;
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace(); 
@@ -147,6 +178,7 @@ public class SongLibController {
 	
 	private void showItem(Stage mainStage) {
 		//String item = listView.getSelectionModel().getSelectedItem();
+		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String[] sia = listOfSongs.get(index).split("\\|"); //sia = song information array
 

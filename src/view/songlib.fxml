@@ -26,19 +26,19 @@
 		fx:id="add"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="50"
-		text="Add" />
+		text="Add" onAction="#convert" />
 		
 	<Button 
 		fx:id="edit"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="100"
-		text="Edit" />
+		text="Edit" onAction="#convert" />
 		
 	<Button 
 		fx:id="delete"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="148"
-		text="Delete" />
+		text="Delete" onAction="#convert" />
 	
 	<Text layoutX="300" layoutY="50" text="Song Details">
         <font>

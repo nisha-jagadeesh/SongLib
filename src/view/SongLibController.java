@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -85,12 +86,21 @@ public class SongLibController {
 		if (b == delete) {
 			int index = listView.getSelectionModel().getSelectedIndex();
 			String songInfo = listOfSongs.get(index);
-			deleteFromTextFile(songInfo);
-			String[] songInfoArr = songInfo.split("\\|");			
-			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
-			obsList.remove(nameAndArtist);
-			listView.setItems(obsList);
-		
+			
+			
+			//confirm delete
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete song");
+			alert.setHeaderText("Are you sure you want to delete this song?");
+			Optional<ButtonType> opt = alert.showAndWait();
+			
+			if (opt.get() == ButtonType.OK) {
+				deleteFromTextFile(songInfo);
+				String[] songInfoArr = songInfo.split("\\|");			
+				String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
+				obsList.remove(nameAndArtist);
+				listView.setItems(obsList);
+			}
 			
 		}
 	}

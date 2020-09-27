@@ -23,6 +23,7 @@ public class SongLib extends Application {
 			Scene scene = new Scene(root, 500, 400);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Song Library");
+			primaryStage.setResizable(false);
 			primaryStage.show();
 	}
 	

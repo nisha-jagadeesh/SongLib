@@ -37,10 +37,6 @@ public class SongLibController {
 	@FXML Text artist_display;
 	@FXML Text album_display;
 	@FXML Text year_display;
-	@FXML TextField song_edit;
-	@FXML TextField artist_edit;
-	@FXML TextField album_edit;
-	@FXML TextField year_edit;
 	@FXML
 	ListView<String> listView;
 	private ObservableList<String> obsList;
@@ -49,27 +45,7 @@ public class SongLibController {
 	public void start(Stage mainStage) {
 		
 		//read data from list
-		//System.out.println("list of songs" + listOfSongs);
-		
-//		obsList = FXCollections.observableArrayList();
-//		int numberOfSongs = listOfSongs.size();
-//		int currSong = 0;
-//		while(currSong < numberOfSongs) {
-//			String songInfo = listOfSongs.get(currSong);
-//			//System.out.println("songinfo" + songInfo);
-//			String[] songInfoArr = songInfo.split("\\|");
-//			//System.out.println(songInfoArr[1]);
-//			
-//			
-//			String nameAndArtist = songInfoArr[0] + " | " + songInfoArr[1];
-//			//System.out.println(nameAndArtist);
-//			
-//			obsList.add(nameAndArtist);
-//			currSong+=1;
-//		}
-		
-		obsList = getObsList();
-		
+		obsList = getObsList();	
 		listView.setItems(obsList);
 		
 		
@@ -105,7 +81,6 @@ public class SongLibController {
 	@FXML Button delete;	
 	public void modifyList(ActionEvent e) {
 
-		
 		Button b = (Button)e.getSource();
 		if (b == clear) {			
 			song.setText("");
@@ -196,6 +171,30 @@ public class SongLibController {
 			
 		}
 		if (b == edit) {
+			String songName = song.getText();
+			String artistName = artist.getText();
+			String nameAndArtist = songName + " | " + artistName;
+			
+			if (songName.isEmpty() || artistName.isEmpty()) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Missing Fields");
+				alert.setHeaderText("Name and artist are required fields. Please try again.");
+				alert.show();
+				return;
+			}
+			System.out.println(index);
+			
+			if (obsList.contains(nameAndArtist)){
+				if (obsList.indexOf(nameAndArtist) != index) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Duplicate song");
+					alert.setHeaderText("This song is already in the library. Please try again.");
+					alert.show();
+					return;
+				}
+			} 
+			
+			
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Edit song");
 			alert.setHeaderText("Are you sure you want to edit this song?");
@@ -240,10 +239,10 @@ public class SongLibController {
 					if(!line.equals(songInfo)) {
 						sb.append(line).append("\n");
 					}else {
-						String user_song = song_edit.getText();
-						String user_artist = artist_edit.getText();
-						String user_album = album_edit.getText();
-						String user_year = year_edit.getText();
+						String user_song = song.getText();
+						String user_artist = artist.getText();
+						String user_album = album.getText();
+						String user_year = year.getText();
 						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
 					}
 				} 
@@ -291,10 +290,10 @@ public class SongLibController {
 		year_display.setText(sia[3]);
 		
 		//Do we want to display "Enter text here: "
-		song_edit.setText(sia[0]);
-		artist_edit.setText(sia[1]);
-		album_edit.setText(sia[2]);
-		year_edit.setText(sia[3]);
+		song.setText(sia[0]);
+		artist.setText(sia[1]);
+		album.setText(sia[2]);
+		year.setText(sia[3]);
 	}
 		
 	private List<String> readFile() {
@@ -319,19 +318,6 @@ public class SongLibController {
 			e.printStackTrace();  
 			return null;
 		}
-	}
-	
-	//REMOVE LATER
-	private void showItemInputDialog(Stage mainStage) {
-		String item = listView.getSelectionModel().getSelectedItem();
-		int index = listView.getSelectionModel().getSelectedIndex();
-		
-		TextInputDialog dialog = new TextInputDialog(item);
-		dialog.initOwner(mainStage); dialog.setTitle("List Item");
-		dialog.setHeaderText("Song Name: " + item + "\nArtist: " + "\nAlbum: " + "\nYear: ");
-		
-		//dialog.setContentText("Enter song name: ");
-
 	}
 	
 	

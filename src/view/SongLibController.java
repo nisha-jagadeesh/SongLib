@@ -142,6 +142,7 @@ public class SongLibController {
 			
 		}
 		if (b == edit) {
+			//confirm edit
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Edit song");
 			alert.setHeaderText("Are you sure you want to edit this song?");

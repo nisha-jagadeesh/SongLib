@@ -30,6 +30,13 @@
 		onAction="#modifyList" />
 		
 	<Button 
+		fx:id="clear"
+		AnchorPane.topAnchor="10"
+		AnchorPane.leftAnchor="200"
+		text="clear"
+		onAction="#modifyList" />
+		
+	<Button 
 		fx:id="edit"
 		AnchorPane.topAnchor="10"
 		AnchorPane.leftAnchor="100"

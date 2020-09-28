@@ -55,6 +55,7 @@ public class SongLibController {
 		
 		// select the first item
 		listView.getSelectionModel().select(0);
+		showItem(mainStage);
 		// set listener for the items
 		listView
 		.getSelectionModel()
@@ -210,6 +211,7 @@ public class SongLibController {
 				listOfSongs = readFile();
 				obsList = getObsList();
 				listView.setItems(obsList);
+				listView.getSelectionModel().select(index);
 			}
 		}
 	}
@@ -248,6 +250,13 @@ public class SongLibController {
 						String user_artist = artist.getText();
 						String user_album = album.getText();
 						String user_year = year.getText();
+						
+						if (user_album.isEmpty()) {
+							user_album = "--";
+						}
+						if (user_year.isEmpty()) {
+							user_year = "--";
+						}
 						sb.append(user_song + "|" + user_artist + "|" + user_album + "|" + user_year + "\n");
 					}
 				} 
@@ -293,8 +302,6 @@ public class SongLibController {
 		artist_display.setText(sia[1]);
 		album_display.setText(sia[2]);
 		year_display.setText(sia[3]);
-		
-		//Do we want to display "Enter text here: "
 		song.setText(sia[0]);
 		artist.setText(sia[1]);
 		album.setText(sia[2]);

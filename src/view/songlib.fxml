@@ -12,31 +12,26 @@
 	
 	<ListView 
 		fx:id="listView" 
-		AnchorPane.bottomAnchor="40" 
+		AnchorPane.bottomAnchor="45" 
 		AnchorPane.leftAnchor="40" 
 		AnchorPane.rightAnchor="290" 
-		AnchorPane.topAnchor="40" />
-		
-	<Button 
-		fx:id="add" 
-		onAction="#modifyList" 
-		text="Add" 
-		AnchorPane.leftAnchor="50" 
-		AnchorPane.topAnchor="10" />
-		
-	<Button 
-		fx:id="edit" 
-		onAction="#modifyList" 
-		text="Edit" 
-		AnchorPane.leftAnchor="100" 
-		AnchorPane.topAnchor="10" />
+		AnchorPane.topAnchor="45" />
+	
+	<Text 
+		text="My Songs" 
+		AnchorPane.leftAnchor="70"
+		AnchorPane.topAnchor="10">
+        <font>
+        	<Font size="24.0" />
+        </font>
+    </Text>
 		
 	<Button 
 		fx:id="delete" 
 		onAction="#modifyList" 
 		text="Delete" 
-		AnchorPane.leftAnchor="148" 
-		AnchorPane.topAnchor="10" />
+		AnchorPane.leftAnchor="98" 
+		AnchorPane.topAnchor="360" />
        
        
        
@@ -44,7 +39,7 @@
   			  
     <Rectangle fill="TRANSPARENT" AnchorPane.topAnchor="8" 
     	AnchorPane.rightAnchor="10" height="115.0" 
-    	stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="250.0" />
+    	stroke="SKYBLUE" strokeType="INSIDE" strokeWidth="3.0" width="250.0" />
     	<!-- opacity=".5" -->
 
 	<Text 
@@ -57,22 +52,22 @@
     </Text>
     
   			  
-    <Text text="Name: " AnchorPane.leftAnchor="248" AnchorPane.topAnchor="40">
+    <Text text="Name: " AnchorPane.leftAnchor="249" AnchorPane.topAnchor="40">
     	<font>
         	<Font size="15.0" />
         </font> </Text>
     
-    <Text text="Artist: " AnchorPane.leftAnchor="248" AnchorPane.topAnchor="60">
+    <Text text="Artist: " AnchorPane.leftAnchor="249" AnchorPane.topAnchor="60">
     	<font>
         	<Font size="15.0" />
         </font> </Text>
     
-    <Text text="Album: " AnchorPane.leftAnchor="248" AnchorPane.topAnchor="80">
+    <Text text="Album: " AnchorPane.leftAnchor="249" AnchorPane.topAnchor="80">
     	<font>
         	<Font size="15.0" />
         </font> </Text>
     
-    <Text text="Year: " AnchorPane.leftAnchor="248" AnchorPane.topAnchor="100">
+    <Text text="Year: " AnchorPane.leftAnchor="249" AnchorPane.topAnchor="100">
     	<font>
         	<Font size="15.0" />
         </font> </Text>
@@ -110,7 +105,7 @@
   			  
   	<Rectangle fill="TRANSPARENT" AnchorPane.topAnchor="130" 
     	AnchorPane.rightAnchor="10" height="262.0" 
-    	stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="250.0" />
+    	stroke="SKYBLUE" strokeType="INSIDE" strokeWidth="3.0" width="250.0" />
    
    	<Text 
 		text="Add/Edit" 
@@ -122,79 +117,90 @@
     </Text>
     
     <Button 
+		fx:id="add" 
+		onAction="#modifyList" 
+		text="Add" 
+		AnchorPane.rightAnchor="210" 
+		AnchorPane.topAnchor="360" />
+		
+	<Button 
+		fx:id="edit" 
+		onAction="#modifyList" 
+		text="Edit" 
+		AnchorPane.rightAnchor="165" 
+		AnchorPane.topAnchor="360" />
+		
+    <Button 
 		fx:id="clear" 
 		onAction="#modifyList" 
-		text="clear" 
-		AnchorPane.rightAnchor="13" 
-		AnchorPane.topAnchor="362" />
+		text="Clear" 
+		AnchorPane.rightAnchor="20" 
+		AnchorPane.topAnchor="360" />
+      
       
     <Text 
-    	text="Add: Click Add after entering information" 
-    	AnchorPane.rightAnchor="22" 
-    	AnchorPane.topAnchor="165" />
-        
-    <Text 
-    	text="for a new song" 
-    	AnchorPane.rightAnchor="130" 
-    	AnchorPane.topAnchor="180" />
-          
-    <Text 
-    	text="Edit: Click a song in order to edit it, then" 
-    	AnchorPane.rightAnchor="30" 
-    	AnchorPane.topAnchor="195" />
+    	text="Click Add/Edit after entering song info" 
+    	AnchorPane.rightAnchor="32" 
+    	AnchorPane.topAnchor="175"> 
+    	<font><Font size="13.0" /></font>
+    </Text>
     	
-    <Text 
-    	text="click Edit to implement changes" 
-    	AnchorPane.rightAnchor="37" 
-    	AnchorPane.topAnchor="210" />
         
 	<Text 
 		text="Name: " 
 		AnchorPane.rightAnchor="200" 
-		AnchorPane.topAnchor="240" />
+		AnchorPane.topAnchor="215"> 
+    	<font><Font size="13.0" /></font>
+    </Text>
         
 	<TextField 
 		fx:id="song" 
 		prefColumnCount="11" 
 		promptText="Ice Bear Anthem" 
 		AnchorPane.rightAnchor="30" 
-		AnchorPane.topAnchor="235" />
+		AnchorPane.topAnchor="210" />
         
     <Text 
     	text="Artist: " 
     	AnchorPane.rightAnchor="200" 
-    	AnchorPane.topAnchor="270" />
+    	AnchorPane.topAnchor="250"> 
+    	<font><Font size="13.0" /></font>
+    </Text>
         
 	<TextField 
 		fx:id="artist" 
 		prefColumnCount="11" 
 		promptText="Nisha Jagadeesh" 
 		AnchorPane.rightAnchor="30" 
-		AnchorPane.topAnchor="265" />
+		AnchorPane.topAnchor="245" />
         
     <Text 
     	text="Album: " 
     	AnchorPane.rightAnchor="200" 
-    	AnchorPane.topAnchor="300" />
+    	AnchorPane.topAnchor="280"> 
+    	<font><Font size="13.0" /></font>
+    </Text>
         
 	<TextField 
 		fx:id="album" 
 		prefColumnCount="11" 
 		promptText="The Ice Bear Collection" 
 		AnchorPane.rightAnchor="30" 
-		AnchorPane.topAnchor="295" />
+		AnchorPane.topAnchor="275" />
         
     <Text 
     	text="Year: " 
     	AnchorPane.rightAnchor="200" 
-    	AnchorPane.topAnchor="330" />
+    	AnchorPane.topAnchor="310"> 
+    	<font><Font size="13.0" /></font>
+    </Text>
         
 	<TextField 
 		fx:id="year" 
 		prefColumnCount="11" 
 		promptText="2020" 
 		AnchorPane.rightAnchor="30" 
-		AnchorPane.topAnchor="325" />
+		AnchorPane.topAnchor="305" />
 		
  
 </AnchorPane>

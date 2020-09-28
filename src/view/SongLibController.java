@@ -1,3 +1,7 @@
+/**
+ * Nisha Jagadeesh nj250
+ * Beatrice Liang-Gilman bel56
+ */
 package view;
 
 import java.io.BufferedReader;
@@ -87,6 +91,7 @@ public class SongLibController {
 			artist.setText("");
 			album.setText("");
 			year.setText("");
+			return;
 		}
 		
 		if (b == add) {
@@ -143,6 +148,7 @@ public class SongLibController {
 				year.setText("");
 				
 			} 
+			return;
 		}
 		
 		if (listOfSongs.size() == 0) { return; }
@@ -182,7 +188,6 @@ public class SongLibController {
 				alert.show();
 				return;
 			}
-			System.out.println(index);
 			
 			if (obsList.contains(nameAndArtist)){
 				if (obsList.indexOf(nameAndArtist) != index) {

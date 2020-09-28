@@ -1,3 +1,7 @@
+/**
+ * Nisha Jagadeesh nj250
+ * Beatrice Liang-Gilman bel56
+ */
 package app;
 
 import javafx.application.Application;

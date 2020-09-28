@@ -142,12 +142,9 @@ public class SongLibController {
 				
 				obsList = getObsList();
 				listView.setItems(obsList);
+				
 				listView.getSelectionModel().select(obsList.indexOf(nameAndArtist));
 				
-				//song.setText("");
-				//artist.setText("");
-				//album.setText("");
-				//year.setText("");
 				
 			} 
 			return;
@@ -171,6 +168,15 @@ public class SongLibController {
 				listOfSongs = readFile();
 				obsList.remove(nameAndArtist);
 				listView.setItems(obsList);
+
+				song.setText("");
+				artist.setText("");
+				album.setText("");
+				year.setText("");
+				song_display.setText("");
+				artist_display.setText("");
+				album_display.setText("");
+				year_display.setText("");
 				
 				listView.getSelectionModel().select(index);
 				showItem();

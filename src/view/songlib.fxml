@@ -142,7 +142,7 @@
     	text="Click Add/Edit after entering song info" 
     	AnchorPane.rightAnchor="32" 
     	AnchorPane.topAnchor="175"> 
-    	<font><Font size="13.0" /></font>
+    	<font><Font size="11.0" /></font>
     </Text>
     	
         

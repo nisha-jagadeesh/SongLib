@@ -109,7 +109,8 @@ public class SongLibController {
 				
 			}
 			
-			if (obsList.contains(nameAndArtist)){
+			if (containsIgnoreCase(obsList, nameAndArtist)){
+				
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Duplicate song");
 				alert.setHeaderText("Error adding duplicate song. Please try again.");
@@ -143,10 +144,10 @@ public class SongLibController {
 				listView.setItems(obsList);
 				listView.getSelectionModel().select(obsList.indexOf(nameAndArtist));
 				
-				song.setText("");
-				artist.setText("");
-				album.setText("");
-				year.setText("");
+				//song.setText("");
+				//artist.setText("");
+				//album.setText("");
+				//year.setText("");
 				
 			} 
 			return;
@@ -174,7 +175,6 @@ public class SongLibController {
 				listView.getSelectionModel().select(index);
 				showItem();
 				
-				
 			}
 			
 		}
@@ -191,7 +191,7 @@ public class SongLibController {
 				return;
 			}
 			
-			if (obsList.contains(nameAndArtist)){
+			if (containsIgnoreCase(obsList, nameAndArtist)){
 				if (obsList.indexOf(nameAndArtist) != index) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Duplicate song");
@@ -331,6 +331,15 @@ public class SongLibController {
 			e.printStackTrace();  
 			return null;
 		}
+	}
+	
+	private boolean containsIgnoreCase(ObservableList<String> list, String search) {
+	    for (String song : list) {
+	        if (song.equalsIgnoreCase(search)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 	
 	

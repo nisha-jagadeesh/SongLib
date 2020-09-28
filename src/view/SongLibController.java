@@ -55,14 +55,14 @@ public class SongLibController {
 		
 		// select the first item
 		listView.getSelectionModel().select(0);
-		showItem(mainStage);
+		showItem();
 		// set listener for the items
 		listView
 		.getSelectionModel()
 		.selectedIndexProperty()
 		.addListener(
 		(obs, oldVal, newVal) ->
-		showItem(mainStage));
+		showItem());
 	}
 	
 	private ObservableList<String> getObsList() {
@@ -172,6 +172,7 @@ public class SongLibController {
 				listView.setItems(obsList);
 				
 				listView.getSelectionModel().select(index);
+				showItem();
 				
 				
 			}
@@ -289,7 +290,7 @@ public class SongLibController {
 		
 	}
 	
-	private void showItem(Stage mainStage) {
+	private void showItem() {
 		//String item = listView.getSelectionModel().getSelectedItem();
 		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();

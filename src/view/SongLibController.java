@@ -5,10 +5,7 @@
 package view;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +25,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.*;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 public class SongLibController {
@@ -41,8 +37,8 @@ public class SongLibController {
 	@FXML Text artist_display;
 	@FXML Text album_display;
 	@FXML Text year_display;
-	@FXML
-	ListView<String> listView;
+	@FXML ListView<String> listView;
+	
 	private ObservableList<String> obsList;
 	private List<String> listOfSongs = readFile();
 
@@ -56,6 +52,7 @@ public class SongLibController {
 		// select the first item
 		listView.getSelectionModel().select(0);
 		showItem();
+		
 		// set listener for the items
 		listView
 		.getSelectionModel()
@@ -65,6 +62,7 @@ public class SongLibController {
 		showItem());
 	}
 	
+	//display songs in listview based on songs.txt 
 	private ObservableList<String> getObsList() {
 		obsList = FXCollections.observableArrayList();
 		int numberOfSongs = listOfSongs.size();
@@ -84,9 +82,12 @@ public class SongLibController {
 	@FXML Button clear;
 	@FXML Button edit;
 	@FXML Button delete;	
+	//add, edit, delete method commands
 	public void modifyList(ActionEvent e) {
 
 		Button b = (Button)e.getSource();
+		
+		//clear add/edit fields in anchorpane
 		if (b == clear) {			
 			song.setText("");
 			artist.setText("");
@@ -95,6 +96,7 @@ public class SongLibController {
 			return;
 		}
 		
+		//add a song to the list
 		if (b == add) {
 			String songInfo = song.getText();
 			String artistInfo = artist.getText();
@@ -154,6 +156,7 @@ public class SongLibController {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		String songInfo = listOfSongs.get(index);
 
+		//delete a song from the list
 		if (b == delete) {	
 			//confirm delete
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -184,6 +187,8 @@ public class SongLibController {
 			}
 			
 		}
+		
+		//edit a song in the list
 		if (b == edit) {
 			String songName = song.getText();
 			String artistName = artist.getText();
@@ -224,7 +229,7 @@ public class SongLibController {
 	}
 
 		
-	//when delete button is clicked should also remove song from the text file 
+	//edit songs.txt with new content
 	private String editTextFile(String songInfo, String command) {
 		
 		try {
@@ -279,7 +284,6 @@ public class SongLibController {
 			
 			//overwrite the file
 			String strFile = sb.toString();	
-			//System.out.println("file contents:\n" + strFile);
 			FileWriter fw = new FileWriter(file);
 			fw.write(strFile);
 			fw.flush();
@@ -296,8 +300,8 @@ public class SongLibController {
 		
 	}
 	
+	//displays item in anchorpane
 	private void showItem() {
-		//String item = listView.getSelectionModel().getSelectedItem();
 		if (listOfSongs.size() == 0) { return; }
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index == -1) {
@@ -315,6 +319,7 @@ public class SongLibController {
 		year.setText(sia[3]);
 	}
 		
+	//reads from text file and returns sorted list of songs 
 	private List<String> readFile() {
 
 		try {
@@ -322,7 +327,7 @@ public class SongLibController {
 			File file = new File(basePath + "/src/view/songs.txt");
 			
 			FileReader fr = new FileReader(file);			
-			BufferedReader br=new BufferedReader(fr);
+			BufferedReader br = new BufferedReader(fr);
 			String line;  
 			List<String> listOfSongs = new ArrayList<>();
 			
@@ -334,11 +339,11 @@ public class SongLibController {
 			return listOfSongs;
 			
 		} catch (IOException e) {
-			e.printStackTrace();  
 			return null;
 		}
 	}
 	
+	//contains method for lists ignoring case
 	private boolean containsIgnoreCase(ObservableList<String> list, String search) {
 	    for (String song : list) {
 	        if (song.equalsIgnoreCase(search)) {
@@ -350,27 +355,7 @@ public class SongLibController {
 	
 	
 }
-	
-	/**
-	 * SONG LIST DISPLAY REQ
-	 * https://stackoverflow.com/questions/52129099/javafx-how-to-read-and-write-an-observablelist-to-a-file
-	 * 
-	 * figure out what data structure to use for list
-	 * make sure you can add, edit, delete from it
-	 * 
-	 * case insensitive
-	 * list display NAME and ARTIST
-	 * sorted alphabetically by songs
-	 * for duplicate songs, sort by artist name
-	 * 
-	 * TODO later: separate name and artist into two columns
-	 */
-	
-	/**
-	 * SONG DETAIL 
-	 * 
-	 * name, artist, album, year
-	 */
+
 
 
 
